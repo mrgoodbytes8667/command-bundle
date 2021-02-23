@@ -1,0 +1,31 @@
+{
+    "name": "mrgoodbytes8667/command-bundle",
+    "type": "symfony-bundle",
+    "license": "CC-BY-NC-4.0",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "symfony/config": "^5.1",
+        "symfony/console": "^5.1",
+        "symfony/dependency-injection": "^5.1",
+        "symfony/framework-bundle": "^5.1"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.1",
+        "symfony/var-dumper": "^5.1"
+    },
+    "authors": [
+        {
+            "name": "MrGoodBytes",
+            "email": "bytes@goodbytes.live"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Bytes\\CommandBundle\\": "src/",
+            "Bytes\\CommandBundle\\Tests\\": "Tests/"
+        }
+    }
+}
