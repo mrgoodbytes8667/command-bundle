@@ -14,17 +14,21 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-###> phpdoc
+###> phpdoc ###
 phpdoc.xml
 /data/
 /docs/
-###< phpdoc
+###< phpdoc ###
+
+###> coverage ###
+clover.xml
+###< coverage ###
 
 ###> symfony bundle
 composer.lock
 bin/phpunit
 ###< symfony bundle
 
-###> jetbrains
+###> jetbrains ###
 .idea
-###< jetbrains
+###< jetbrains ###

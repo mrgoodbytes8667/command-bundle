@@ -18,9 +18,11 @@ jobs:
     strategy:
       matrix:
         php: [ 7.3, 7.4, 8.0 ]
-        dependency-version: [ prefer-lowest, prefer-stable ]
+        dependency-version: [ prefer-stable, prefer-lowest ]
         os: [ ubuntu-latest ]
         phpuniturl: ["https://raw.githubusercontent.com/symfony/recipes/master/symfony/phpunit-bridge/4.3/bin/phpunit"]
+    env:
+      SYMFONY_PHPUNIT_VERSION: 9.5
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -65,7 +67,7 @@ jobs:
 
       - name: Install dependencies
         if: success()
-        run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+        run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Check file existence
         if: success()
