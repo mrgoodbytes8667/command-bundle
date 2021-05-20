@@ -1,5 +1,6 @@
 {
     "name": "mrgoodbytes8667/command-bundle",
+    "description": "A slightly better version of Symfony's base command class",
     "type": "symfony-bundle",
     "license": "CC-BY-NC-4.0",
     "require": {
