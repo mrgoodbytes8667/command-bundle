@@ -4,6 +4,7 @@
 namespace Bytes\CommandBundle\Command;
 
 
+use Bytes\CommandBundle\Exception\CommandRuntimeException;
 use DateTime;
 use DateTimeZone;
 use Symfony\Component\Console\Command\Command;
@@ -53,6 +54,9 @@ abstract class BaseCommand extends Command
      */
     const DEFAULT_TIMEZONE = 'America/Chicago';
 
+    /**
+     * @param string|null $name
+     */
     public function __construct(string $name = null)
     {
         parent::__construct($name);
@@ -83,34 +87,45 @@ abstract class BaseCommand extends Command
         if ($this->needsOutput) {
             $this->output = $output;
         }
-        $preExecuteCommand = $this->preExecuteCommand();
-        if ($preExecuteCommand !== static::SUCCESS) {
-            return $preExecuteCommand;
+        try {
+            $preExecuteCommand = $this->preExecuteCommand();
+            if ($preExecuteCommand !== static::SUCCESS) {
+                return $preExecuteCommand;
+            }
+
+            $startTime = $this->outputCurrentDateTime('Command starting at ');
+
+            $return = $this->executeCommand();
+
+            if ($return !== static::SUCCESS) {
+                $this->io->error(sprintf('Exiting with code %d', $return));
+                return $return;
+            }
+
+            $return = $this->postExecuteCommand();
+
+            if ($return !== static::SUCCESS) {
+                return $return;
+            }
+        } catch (CommandRuntimeException $exception) {
+            if ($exception->shouldDisplayMessage() && !empty($exception->getMessage())) {
+                $this->io->error($exception->getMessage());
+            }
+            $return = $exception->getReturnCode();
         }
 
-        $startTime = $this->outputCurrentDateTime('Command starting at ');
-
-        $return = $this->executeCommand();
-
-        if ($return !== static::SUCCESS) {
-            $this->io->error(sprintf('Exiting with code %d', $return));
-            return $return;
+        if (!empty($startTime)) {
+            $endTime = $this->outputCurrentDateTime('Command ending at ');
+            $this->io->note($startTime->diff($endTime)->format('%r%dd %hh %im %ss'));
         }
-
-        $return = $this->postExecuteCommand();
-
-        if ($return !== static::SUCCESS) {
-            return $return;
-        }
-
-        $endTime = $this->outputCurrentDateTime('Command ending at ');
-        $this->io->note($startTime->diff($endTime)->format('%r%dd %hh %im %ss'));
 
         return $return;
     }
 
     /**
      * @return int 0 if everything went fine, or an exit code
+     *
+     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
      */
     protected function preExecuteCommand(): int
     {
@@ -132,11 +147,15 @@ abstract class BaseCommand extends Command
 
     /**
      * @return int
+     *
+     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
      */
     abstract protected function executeCommand(): int;
 
     /**
      * @return int
+     *
+     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
      */
     protected function postExecuteCommand(): int
     {

@@ -2,6 +2,9 @@
 
 namespace Bytes\CommandBundle\Tests\Command;
 
+use Bytes\CommandBundle\Tests\fixtures\Command\SampleCommandRuntimeExceptionMessageCommand;
+use Bytes\CommandBundle\Tests\fixtures\Command\SampleCommandRuntimeExceptionMessageReturnSuccessCommand;
+use Bytes\CommandBundle\Tests\fixtures\Command\SampleCommandRuntimeExceptionNoArgsCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleFailureInputCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleFailureOnlyCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleInputCommand;
@@ -97,5 +100,44 @@ class SampleCommandTest extends TestCase
         $this->assertEquals(Command::SUCCESS, $tester->getStatusCode());
         $this->assertEquals("! [NOTE] 0d 0h 0m 0s", u($tester->getDisplay())->trim()->toString());
 
+    }
+
+    /**
+     *
+     */
+    public function testSampleCommandRuntimeExceptionNoArgsCommandExecute()
+    {
+        $command = new SampleCommandRuntimeExceptionNoArgsCommand('app:sample');
+        $command->setName('app:sample');
+        $tester = new CommandTester($command);
+
+        $tester->execute([]);
+        $this->assertEquals(Command::FAILURE, $tester->getStatusCode());
+    }
+
+    /**
+     *
+     */
+    public function testSampleCommandRuntimeExceptionMessageCommandExecute()
+    {
+        $command = new SampleCommandRuntimeExceptionMessageCommand('app:sample');
+        $command->setName('app:sample');
+        $tester = new CommandTester($command);
+
+        $tester->execute([]);
+        $this->assertEquals(Command::FAILURE, $tester->getStatusCode());
+    }
+
+    /**
+     *
+     */
+    public function testSampleCommandRuntimeExceptionMessageReturnSuccessCommandExecute()
+    {
+        $command = new SampleCommandRuntimeExceptionMessageReturnSuccessCommand('app:sample');
+        $command->setName('app:sample');
+        $tester = new CommandTester($command);
+
+        $tester->execute([]);
+        $this->assertEquals(Command::SUCCESS, $tester->getStatusCode());
     }
 }
