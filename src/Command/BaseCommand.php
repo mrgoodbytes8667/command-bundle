@@ -64,6 +64,38 @@ abstract class BaseCommand extends Command
     }
 
     /**
+     * Runs the command.
+     *
+     * The code to execute is either defined directly with the
+     * setCode() method or by overriding the execute() method
+     * in a sub-class.
+     *
+     * @return int The command exit code
+     *
+     * @throws \Exception When binding input fails. Bypass this by calling {@link ignoreValidationErrors()}.
+     *
+     * @see setCode()
+     * @see execute()
+     */
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        $this->io = new CommandStyle($input, $output);
+        $this->input = $input;
+        if ($this->needsOutput) {
+            $this->output = $output;
+        }
+
+        try {
+            return parent::run($input, $output);
+        } catch (CommandRuntimeException $exception) {
+            if ($exception->shouldDisplayMessage() && !empty($exception->getMessage())) {
+                $this->io->error($exception->getMessage());
+            }
+            return $exception->getReturnCode();
+        }
+    }
+
+    /**
      * Executes the current command.
      *
      * This method is not abstract because you can use this class
@@ -82,11 +114,6 @@ abstract class BaseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->io = new CommandStyle($input, $output);
-        $this->input = $input;
-        if ($this->needsOutput) {
-            $this->output = $output;
-        }
         try {
             $preExecuteCommand = $this->preExecuteCommand();
             if ($preExecuteCommand !== static::SUCCESS) {
@@ -125,7 +152,7 @@ abstract class BaseCommand extends Command
     /**
      * @return int 0 if everything went fine, or an exit code
      *
-     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
+     * @throws CommandRuntimeException
      */
     protected function preExecuteCommand(): int
     {
@@ -148,14 +175,14 @@ abstract class BaseCommand extends Command
     /**
      * @return int
      *
-     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
+     * @throws CommandRuntimeException
      */
     abstract protected function executeCommand(): int;
 
     /**
      * @return int
      *
-     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
+     * @throws CommandRuntimeException
      */
     protected function postExecuteCommand(): int
     {
