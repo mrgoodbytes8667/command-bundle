@@ -64,6 +64,32 @@ abstract class BaseCommand extends Command
     }
 
     /**
+     * Runs the command.
+     *
+     * The code to execute is either defined directly with the
+     * setCode() method or by overriding the execute() method
+     * in a sub-class.
+     *
+     * @return int The command exit code
+     *
+     * @throws \Exception When binding input fails. Bypass this by calling {@link ignoreValidationErrors()}.
+     *
+     * @see setCode()
+     * @see execute()
+     */
+    public function run(InputInterface $input, OutputInterface $output)
+    {
+        $this->io = new CommandStyle($input, $output);
+        $this->input = $input;
+        if ($this->needsOutput) {
+            $this->output = $output;
+        }
+
+        return parent::run($input, $output);
+    }
+
+
+    /**
      * Executes the current command.
      *
      * This method is not abstract because you can use this class
@@ -82,11 +108,6 @@ abstract class BaseCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->io = new CommandStyle($input, $output);
-        $this->input = $input;
-        if ($this->needsOutput) {
-            $this->output = $output;
-        }
         try {
             $preExecuteCommand = $this->preExecuteCommand();
             if ($preExecuteCommand !== static::SUCCESS) {
