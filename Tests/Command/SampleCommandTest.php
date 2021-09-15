@@ -8,6 +8,8 @@ use Bytes\CommandBundle\Tests\fixtures\Command\SampleCommandRuntimeExceptionNoAr
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleFailureInputCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleFailureOnlyCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleInputCommand;
+use Bytes\CommandBundle\Tests\fixtures\Command\SampleInteractionCommandRuntimeExceptionMessageCommand;
+use Bytes\CommandBundle\Tests\fixtures\Command\SampleNeedsOutputSuccessOnlyCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleSuccessOnlyCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleTimeCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -40,7 +42,19 @@ class SampleCommandTest extends TestCase
 
         $tester->execute([]);
         $this->assertEquals(Command::SUCCESS, $tester->getStatusCode());
+    }
 
+    /**
+     *
+     */
+    public function testSampleNeedsOutputSuccessOnlyCommandExecute()
+    {
+        $command = new SampleNeedsOutputSuccessOnlyCommand('app:sample');
+        $command->setName('app:sample');
+        $tester = new CommandTester($command);
+
+        $tester->execute([]);
+        $this->assertEquals(Command::SUCCESS, $tester->getStatusCode());
     }
 
     /**
@@ -121,6 +135,19 @@ class SampleCommandTest extends TestCase
     public function testSampleCommandRuntimeExceptionMessageCommandExecute()
     {
         $command = new SampleCommandRuntimeExceptionMessageCommand('app:sample');
+        $command->setName('app:sample');
+        $tester = new CommandTester($command);
+
+        $tester->execute([]);
+        $this->assertEquals(Command::FAILURE, $tester->getStatusCode());
+    }
+
+    /**
+     *
+     */
+    public function testSampleInteractionCommandRuntimeExceptionMessageCommandExecute()
+    {
+        $command = new SampleInteractionCommandRuntimeExceptionMessageCommand('app:sample');
         $command->setName('app:sample');
         $tester = new CommandTester($command);
 
