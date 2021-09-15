@@ -85,9 +85,15 @@ abstract class BaseCommand extends Command
             $this->output = $output;
         }
 
-        return parent::run($input, $output);
+        try {
+            return parent::run($input, $output);
+        } catch (CommandRuntimeException $exception) {
+            if ($exception->shouldDisplayMessage() && !empty($exception->getMessage())) {
+                $this->io->error($exception->getMessage());
+            }
+            return $exception->getReturnCode();
+        }
     }
-
 
     /**
      * Executes the current command.
@@ -146,7 +152,7 @@ abstract class BaseCommand extends Command
     /**
      * @return int 0 if everything went fine, or an exit code
      *
-     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
+     * @throws CommandRuntimeException
      */
     protected function preExecuteCommand(): int
     {
@@ -169,14 +175,14 @@ abstract class BaseCommand extends Command
     /**
      * @return int
      *
-     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
+     * @throws CommandRuntimeException
      */
     abstract protected function executeCommand(): int;
 
     /**
      * @return int
      *
-     * @throws \Bytes\CommandBundle\Exception\CommandRuntimeException
+     * @throws CommandRuntimeException
      */
     protected function postExecuteCommand(): int
     {
