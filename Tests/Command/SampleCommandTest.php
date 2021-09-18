@@ -11,6 +11,7 @@ use Bytes\CommandBundle\Tests\fixtures\Command\SampleInputCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleInteractionCommandRuntimeExceptionMessageCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleNeedsOutputSuccessOnlyCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleSuccessOnlyCommand;
+use Bytes\CommandBundle\Tests\fixtures\Command\SampleSuccessOnlyNeedsOutputWithoutVarCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleTimeCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -161,6 +162,19 @@ class SampleCommandTest extends TestCase
     public function testSampleCommandRuntimeExceptionMessageReturnSuccessCommandExecute()
     {
         $command = new SampleCommandRuntimeExceptionMessageReturnSuccessCommand('app:sample');
+        $command->setName('app:sample');
+        $tester = new CommandTester($command);
+
+        $tester->execute([]);
+        $this->assertEquals(Command::SUCCESS, $tester->getStatusCode());
+    }
+
+    /**
+     *
+     */
+    public function testSampleSuccessOnlyNeedsOutputWithoutVarCommand()
+    {
+        $command = new SampleSuccessOnlyNeedsOutputWithoutVarCommand('app:sample');
         $command->setName('app:sample');
         $tester = new CommandTester($command);
 
