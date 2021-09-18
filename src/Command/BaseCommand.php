@@ -31,7 +31,7 @@ abstract class BaseCommand extends Command
 
     /**
      * @var bool|null
-     * @deprecated since 1.2.1, this variable is unnecessary. Output will always be set.
+     * @deprecated since 1.2.2, this variable is unnecessary. Output will always be set.
      */
     protected $needsOutput = null;
 
@@ -64,7 +64,7 @@ abstract class BaseCommand extends Command
         $this->setOutputTimeZone();
         if(!is_null($this->needsOutput))
         {
-            trigger_deprecation('mrgoodbytes8667/command-bundle', '1.2.1', 'The "$needsOutput" variable is deprecated. Output will always be set regardless of value and the variable declaration should be removed.');
+            trigger_deprecation('mrgoodbytes8667/command-bundle', '1.2.2', 'The "$needsOutput" variable is deprecated. Output will always be set regardless of value and the variable declaration should be removed.');
         }
     }
 

@@ -20,7 +20,7 @@ class LegacySampleCommandTest extends TestCase
      */
     public function testSampleNeedsOutputSuccessOnlyCommandExecute()
     {
-        $this->expectDeprecation('Since mrgoodbytes8667/command-bundle 1.2.1: The "$needsOutput" variable is deprecated. Output will always be set regardless of value and the variable declaration should be removed.');
+        $this->expectDeprecation('Since mrgoodbytes8667/command-bundle 1.2.2: The "$needsOutput" variable is deprecated. Output will always be set regardless of value and the variable declaration should be removed.');
 
         $command = new SampleNeedsOutputSuccessOnlyCommand('app:sample');
         $command->setName('app:sample');
