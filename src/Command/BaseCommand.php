@@ -30,9 +30,9 @@ abstract class BaseCommand extends Command
     protected $input;
 
     /**
-     * @var bool
+     * @var bool|null
      */
-    protected $needsOutput = false;
+    protected $needsOutput = null;
 
     /**
      * @var OutputInterface
@@ -50,7 +50,7 @@ abstract class BaseCommand extends Command
     private $outputDateFormat = 'm/d/Y g:i:sa T';
 
     /**
-     * 
+     *
      */
     const DEFAULT_TIMEZONE = 'America/Chicago';
 
@@ -81,9 +81,7 @@ abstract class BaseCommand extends Command
     {
         $this->io = new CommandStyle($input, $output);
         $this->input = $input;
-        if ($this->needsOutput) {
-            $this->output = $output;
-        }
+        $this->output = $output;
 
         try {
             return parent::run($input, $output);
