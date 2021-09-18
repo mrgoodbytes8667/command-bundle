@@ -48,19 +48,6 @@ class SampleCommandTest extends TestCase
     /**
      *
      */
-    public function testSampleNeedsOutputSuccessOnlyCommandExecute()
-    {
-        $command = new SampleNeedsOutputSuccessOnlyCommand('app:sample');
-        $command->setName('app:sample');
-        $tester = new CommandTester($command);
-
-        $tester->execute([]);
-        $this->assertEquals(Command::SUCCESS, $tester->getStatusCode());
-    }
-
-    /**
-     *
-     */
     public function testSampleFailureOnlyCommandExecute()
     {
         $command = new SampleFailureOnlyCommand('app:sample');
