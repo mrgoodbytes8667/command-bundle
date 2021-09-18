@@ -30,9 +30,10 @@ abstract class BaseCommand extends Command
     protected $input;
 
     /**
-     * @var bool
+     * @var bool|null
+     * @deprecated since 1.2.1, this variable is unnecessary. Output will always be set.
      */
-    protected $needsOutput = false;
+    protected $needsOutput = null;
 
     /**
      * @var OutputInterface
@@ -50,7 +51,7 @@ abstract class BaseCommand extends Command
     private $outputDateFormat = 'm/d/Y g:i:sa T';
 
     /**
-     * 
+     *
      */
     const DEFAULT_TIMEZONE = 'America/Chicago';
 
@@ -61,6 +62,10 @@ abstract class BaseCommand extends Command
     {
         parent::__construct($name);
         $this->setOutputTimeZone();
+        if(!is_null($this->needsOutput))
+        {
+            trigger_deprecation('mrgoodbytes8667/command-bundle', '1.2.1', 'The "$needsOutput" variable is deprecated. Output will always be set regardless of value and the variable declaration should be removed.');
+        }
     }
 
     /**
@@ -81,9 +86,7 @@ abstract class BaseCommand extends Command
     {
         $this->io = new CommandStyle($input, $output);
         $this->input = $input;
-        if ($this->needsOutput) {
-            $this->output = $output;
-        }
+        $this->output = $output;
 
         try {
             return parent::run($input, $output);
