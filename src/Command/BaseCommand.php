@@ -82,7 +82,7 @@ abstract class BaseCommand extends Command
      * @see setCode()
      * @see execute()
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new CommandStyle($input, $output);
         $this->input = $input;
