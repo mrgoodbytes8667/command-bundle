@@ -19,7 +19,7 @@ jobs:
       matrix:
         php: [ 8.0 ]
         dependency-version: [ prefer-stable, prefer-lowest ]
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest ]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,9 +35,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php${{ matrix.php }}-release-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php${{ matrix.php }}-composer-
+            ${{ runner.os }}-php${{ matrix.php }}-release-composer-
 
       - name: Setup PHP
         if: success()
@@ -74,8 +74,3 @@ jobs:
           release_name: ${{ github.ref }}
           draft: true
           prerelease: false
-          body: |
-            Description
-            ### Features
-            ### Changes
-            ### Bugs

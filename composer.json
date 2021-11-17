@@ -41,5 +41,6 @@
             "Bytes\\CommandBundle\\": "src/",
             "Bytes\\CommandBundle\\Tests\\": "Tests/"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
