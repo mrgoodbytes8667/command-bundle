@@ -82,7 +82,7 @@ trait CounterTableHelperTrait
             if (!empty($this->tableFooterText)) {
                 $footerText = '';
                 if (class_exists(Pluralize::class)) {
-                    $footerText = Pluralize::pluralize($this->rowCounter, $this->tableFooterText);
+                    $footerText = Pluralize::pluralizeFormatted($this->rowCounter, $this->tableFooterText);
                 } else {
                     $footerText = $this->rowCounter . ' ' . $this->tableFooterText;
                 }
