@@ -5,11 +5,10 @@ namespace Bytes\CommandBundle\Command\Traits;
 use Bytes\PluralizeBundle\Pluralize;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @property OutputInterface $output
- * @property SymfonyStyle $io
+ * @experimental
  */
 trait CounterTableHelperTrait
 {
@@ -19,7 +18,7 @@ trait CounterTableHelperTrait
     protected $rowCounter = 0;
 
     /**
-     * @var Table
+     * @var Table|null
      */
     protected $table;
 
@@ -29,6 +28,19 @@ trait CounterTableHelperTrait
     protected $tableFooterText;
 
     /**
+     * @param $row
+     * @return Table
+     */
+    protected function addTableRow($row): Table
+    {
+        if (empty($this->table)) {
+            $this->createTable([]);
+        }
+        $this->rowCounter++;
+        return $this->table->addRow($row);
+    }
+
+    /**
      * @param array $headers
      * @param string|null $title
      * @param string|null $footer
@@ -36,10 +48,10 @@ trait CounterTableHelperTrait
      */
     protected function createTable(array $headers, ?string $title = null, ?string $footer = null): Table
     {
-        $this->rowCounter = 0;
+        $this->resetTable();
         $table = new Table($this->output);
         $table->setHeaders($headers);
-        if(!empty($title)) {
+        if (!empty($title)) {
             $table->setHeaderTitle($title);
         }
         $this->tableFooterText = $footer;
@@ -48,34 +60,28 @@ trait CounterTableHelperTrait
     }
 
     /**
-     * @param $row
-     * @return Table
+     *
      */
-    protected function addTableRow($row)
+    protected function resetTable()
     {
-        if(empty($this->table)) {
-            $this->createTable([]);
-        }
-        $this->rowCounter++;
-        return $this->table->addRow($row);
+        $this->table = null;
+        $this->rowCounter = 0;
+        $this->tableFooterText = null;
     }
 
     /**
-     * @param bool $hasProgressBar
-     * @return Table
+     * @param bool $resetTable
+     * @return Table|null
      */
-    protected function renderTable(bool $hasProgressBar = false): Table
+    protected function renderTable(bool $resetTable = true): ?Table
     {
-        if(empty($this->table)) {
+        if (empty($this->table)) {
             $this->createTable([]);
         }
-        if($this->rowCounter > 0) {
-            if($hasProgressBar) {
-                $this->io->newLine(2);
-            }
-            if(!empty($this->tableFooterText)) {
+        if ($this->willTableRender()) {
+            if (!empty($this->tableFooterText)) {
                 $footerText = '';
-                if(class_exists(Pluralize::class)) {
+                if (class_exists(Pluralize::class)) {
                     $footerText = Pluralize::pluralize($this->rowCounter, $this->tableFooterText);
                 } else {
                     $footerText = $this->rowCounter . ' ' . $this->tableFooterText;
@@ -85,6 +91,18 @@ trait CounterTableHelperTrait
             $this->table->render();
         }
 
+        if ($resetTable) {
+            $this->resetTable();
+        }
+
         return $this->table;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function willTableRender(): bool
+    {
+        return $this->rowCounter > 0;
     }
 }
