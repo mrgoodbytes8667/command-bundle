@@ -4,6 +4,7 @@ namespace Bytes\CommandBundle\Command\Traits;
 
 use Bytes\PluralizeBundle\Pluralize;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -29,14 +30,26 @@ trait CounterTableHelperTrait
 
     /**
      * @param $row
+     * @param array $options = ['rowspan' => 1, 'colspan' => 1, 'style' => null]
      * @return Table
      */
-    protected function addTableRow($row): Table
+    protected function addTableRow($row, array $options = []): Table
     {
         if (empty($this->table)) {
             $this->createTable([]);
         }
         $this->rowCounter++;
+
+        if (!empty($options)) {
+            foreach ($row as $index => $text) {
+
+                $row[$index] = new TableCell(
+                    $text,
+                    $options,
+                );
+            }
+        }
+
         return $this->table->addRow($row);
     }
 
