@@ -7,6 +7,7 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 use Bytes\CommandBundle\Command\BaseCommand;
 use Bytes\CommandBundle\Command\Traits\CounterTableHelperTrait;
 use Bytes\CommandBundle\Command\Traits\ProgressBarHelperTrait;
+use Symfony\Component\Console\Helper\TableCellStyle;
 
 /**
  *
@@ -26,16 +27,20 @@ class SampleCounterCommand extends BaseCommand
     protected function executeCommand(): int
     {
         $bar = $this->createVeryVerboseProgressBar();
-        $this->createTable([], 'Header', 'row');
-        $this->addTableRow([]);
+        $this->createTable(['A', 'B'], 'Header', 'row');
+        $this->addTableRow(['A', 'B']);
         $bar->advance();
-        $this->addTableRow([]);
+        $this->addTableRow(['A', 'B'], ['style' => new TableCellStyle([
+            'align' => 'center',
+            'fg' => 'red',
+            'bg' => 'green',
+        ])]);
         $bar->advance();
         $this->finishProgressBar($bar);
         $this->renderTable(true);
 
         unset($this->table);
-        $this->addTableRow([]);
+        $this->addTableRow(['A', 'B']);
         unset($this->table);
         $this->renderTable();
 
