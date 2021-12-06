@@ -8,7 +8,13 @@ on:
   repository_dispatch:
   push:
     branches:
-      - "main"
+      - main
+      - 0.*
+      - 1.*
+      - 2.*
+  schedule:
+    # Weekly on Thursdays at 2pm UTC
+    - cron:  '0 14 * * 4'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -53,9 +59,7 @@ jobs:
 
       - name: Install dependencies
         if: success()
-        run: |
-          composer config minimum-stability stable
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+        run: composer update --${{ matrix.dependency-version }} --prefer-stable --prefer-dist --no-interaction
 
       - name: Run PHPUnit
         if: success()
