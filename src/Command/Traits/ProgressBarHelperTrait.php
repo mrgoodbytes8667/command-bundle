@@ -3,6 +3,7 @@
 namespace Bytes\CommandBundle\Command\Traits;
 
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -14,11 +15,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 trait ProgressBarHelperTrait
 {
     /**
+     * @param OutputInterface|null $output
      * @return ProgressBar
      */
-    protected function createVeryVerboseProgressBar(): ProgressBar
+    protected function createVeryVerboseProgressBar(?OutputInterface $output = null): ProgressBar
     {
-        $progressBar = new ProgressBar($this->output);
+        $progressBar = new ProgressBar($output instanceof ConsoleOutputInterface ? $output : $this->output);
         $progressBar->setFormat('very_verbose');
         return $progressBar;
     }
@@ -26,7 +28,8 @@ trait ProgressBarHelperTrait
     /**
      * @param ProgressBar $progressBar
      */
-    protected function finishProgressBar(ProgressBar $progressBar) {
+    protected function finishProgressBar(ProgressBar $progressBar)
+    {
         $progressBar->finish();
         $this->io->newLine(2);
     }
