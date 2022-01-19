@@ -5,6 +5,8 @@ namespace Bytes\CommandBundle\Command\Traits;
 use Bytes\PluralizeBundle\Pluralize;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -29,16 +31,24 @@ trait CounterTableHelperTrait
     protected $tableFooterText;
 
     /**
+     * @var ConsoleSectionOutput|null
+     */
+    protected $section;
+
+    /**
      * @param $row
      * @param array $options = ['rowspan' => 1, 'colspan' => 1, 'style' => null]
+     * @param bool $doIncrementRowCount
      * @return Table
      */
-    protected function addTableRow($row, array $options = []): Table
+    protected function addTableRow($row, array $options = [], bool $doIncrementRowCount = true): Table
     {
         if (empty($this->table)) {
             $this->createTable([]);
         }
-        $this->rowCounter++;
+        if ($doIncrementRowCount) {
+            $this->rowCounter++;
+        }
 
         if (!empty($options)) {
             foreach ($row as $index => $text) {
@@ -62,7 +72,12 @@ trait CounterTableHelperTrait
     protected function createTable(array $headers, ?string $title = null, ?string $footer = null): Table
     {
         $this->resetTable();
-        $table = new Table($this->output);
+        $output = $this->output;
+        if ($this->output instanceof ConsoleOutputInterface) {
+            $this->section = $this->output->section();
+            $output = $this->section;
+        }
+        $table = new Table($output);
         $table->setHeaders($headers);
         if (!empty($title)) {
             $table->setHeaderTitle($title);
@@ -83,6 +98,33 @@ trait CounterTableHelperTrait
     }
 
     /**
+     * @param $row
+     * @param array $options = ['rowspan' => 1, 'colspan' => 1, 'style' => null]
+     * @param bool $doIncrementRowCount
+     * @return Table
+     */
+    protected function appendTableRow($row, array $options = [], bool $doIncrementRowCount = true): Table
+    {
+        if (empty($this->table)) {
+            $this->createTable([]);
+        }
+        if ($doIncrementRowCount) {
+            $this->rowCounter++;
+        }
+
+        if (!empty($options)) {
+            foreach ($row as $index => $text) {
+                $row[$index] = new TableCell(
+                    $text,
+                    $options,
+                );
+            }
+        }
+
+        return $this->table->appendRow($row);
+    }
+
+    /**
      * @param bool $resetTable
      * @return Table|null
      */
@@ -92,15 +134,7 @@ trait CounterTableHelperTrait
             $this->createTable([]);
         }
         if ($this->willTableRender()) {
-            if (!empty($this->tableFooterText)) {
-                $footerText = '';
-                if (class_exists(Pluralize::class)) {
-                    $footerText = Pluralize::pluralizeFormatted($this->rowCounter, $this->tableFooterText);
-                } else {
-                    $footerText = $this->rowCounter . ' ' . $this->tableFooterText;
-                }
-                $this->table->setFooterTitle($footerText);
-            }
+            $this->renderTableFooter();
             $this->table->render();
         }
 
@@ -117,5 +151,23 @@ trait CounterTableHelperTrait
     protected function willTableRender(): bool
     {
         return $this->rowCounter > 0;
+    }
+
+    /**
+     * @return Table|null
+     */
+    public function renderTableFooter(): ?Table
+    {
+        if (!empty($this->tableFooterText)) {
+            $footerText = '';
+            if (class_exists(Pluralize::class)) {
+                $footerText = Pluralize::pluralizeFormatted($this->rowCounter, $this->tableFooterText);
+            } else {
+                $footerText = $this->rowCounter . ' ' . $this->tableFooterText;
+            }
+            $this->table->setFooterTitle($footerText);
+        }
+
+        return $this->table;
     }
 }
