@@ -126,14 +126,15 @@ trait CounterTableHelperTrait
 
     /**
      * @param bool $resetTable
+     * @param bool $forceRender
      * @return Table|null
      */
-    protected function renderTable(bool $resetTable = true): ?Table
+    protected function renderTable(bool $resetTable = true, bool $forceRender = false): ?Table
     {
         if (empty($this->table)) {
             $this->createTable([]);
         }
-        if ($this->willTableRender()) {
+        if ($this->willTableRender() || $forceRender) {
             $this->renderTableFooter();
             $this->table->render();
         }
