@@ -6,6 +6,7 @@ use Bytes\CommandBundle\Command\Traits\CounterTableHelperTrait;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleCounterCommand;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleCounterCommandNoSeparator;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleCounterCommandNoTableRenders;
+use Bytes\CommandBundle\Tests\fixtures\Command\SampleCounterCommandNumerousRows;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleCounterCommandTableRenders;
 use Bytes\CommandBundle\Tests\fixtures\Command\SampleCounterCommandWithSeparator;
 use PHPUnit\Framework\TestCase;
@@ -102,5 +103,22 @@ class SampleCounterCommandTest extends TestCase
         $this->assertStringContainsString('Column B', $tester->getDisplay());
         $output = u($tester->getDisplay())->afterLast('Column B |')->before(' // Done')->trim()->toString();
         $this->assertEquals(3, substr_count($output, '+'));
+    }
+
+    /**
+     *
+     */
+    public function testSampleNumerousRowsCommandExecute()
+    {
+        $command = new SampleCounterCommandNumerousRows('app:sample');
+        $command->setName('app:sample');
+        $tester = new CommandTester($command);
+
+        $tester->execute([]);
+        $this->assertEquals(Command::SUCCESS, $tester->getStatusCode());
+        $this->assertStringContainsString('Header', $tester->getDisplay());
+        $this->assertStringContainsString('Column A', $tester->getDisplay());
+        $this->assertStringContainsString('Column B', $tester->getDisplay());
+        $this->assertStringContainsString('1,234 rows', $tester->getDisplay());
     }
 }

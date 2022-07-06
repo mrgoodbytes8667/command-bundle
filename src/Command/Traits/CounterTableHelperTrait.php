@@ -175,7 +175,7 @@ trait CounterTableHelperTrait
             if (class_exists(Pluralize::class)) {
                 $footerText = Pluralize::pluralizeFormatted($this->rowCounter, $this->tableFooterText);
             } else {
-                $footerText = $this->rowCounter . ' ' . $this->tableFooterText;
+                $footerText = number_format($this->rowCounter) . ' ' . $this->tableFooterText;
             }
             $this->table->setFooterTitle($footerText);
         }
