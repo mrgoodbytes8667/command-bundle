@@ -5,6 +5,7 @@ namespace Bytes\CommandBundle\Command\Traits;
 use Bytes\PluralizeBundle\Pluralize;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -61,6 +62,16 @@ trait CounterTableHelperTrait
         }
 
         return $this->table->addRow($row);
+    }
+
+    /**
+     * @param array $options
+     * @param bool $doIncrementRowCount
+     * @return Table
+     */
+    protected function addTableSeparator(array $options = [], bool $doIncrementRowCount = false): Table
+    {
+        return $this->addTableRow(new TableSeparator($options), doIncrementRowCount: $doIncrementRowCount);
     }
 
     /**
