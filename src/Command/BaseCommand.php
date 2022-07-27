@@ -4,6 +4,8 @@
 namespace Bytes\CommandBundle\Command;
 
 
+use Bytes\CommandBundle\Command\Interfaces\LockableCommandInterface;
+use Bytes\CommandBundle\Command\Interfaces\LockableWaitCommandInterface;
 use Bytes\CommandBundle\Exception\CommandRuntimeException;
 use DateTime;
 use DateTimeZone;
@@ -127,6 +129,10 @@ abstract class BaseCommand extends Command
 
             $return = $this->executeCommand();
 
+            if (is_subclass_of($this, LockableCommandInterface::class)) {
+                $this->releaseCommand();
+            }
+
             if ($return !== static::SUCCESS) {
                 $this->io->error(sprintf('Exiting with code %d', $return));
                 return $return;
@@ -159,6 +165,13 @@ abstract class BaseCommand extends Command
      */
     protected function preExecuteCommand(): int
     {
+        if(is_subclass_of($this, LockableWaitCommandInterface::class)) {
+            $this->waitToRunCommand();
+        } elseif (is_subclass_of($this, LockableCommandInterface::class)) {
+            if($this->isCommandRunning()) {
+                return static::SUCCESS;
+            }
+        }
         return static::SUCCESS;
     }
 
