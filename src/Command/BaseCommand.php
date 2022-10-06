@@ -120,6 +120,9 @@ abstract class BaseCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
+            if (!$this->canCommandRun()) {
+                return static::SUCCESS;
+            }
             $preExecuteCommand = $this->preExecuteCommand();
             if ($preExecuteCommand !== static::SUCCESS) {
                 return $preExecuteCommand;
@@ -159,19 +162,30 @@ abstract class BaseCommand extends Command
     }
 
     /**
+     * @return bool
+     *
+     * @throws CommandRuntimeException
+     */
+    protected function canCommandRun(): bool
+    {
+        if(is_subclass_of($this, LockableWaitCommandInterface::class)) {
+            $this->waitToRunCommand();
+            return true;
+        } elseif (is_subclass_of($this, LockableCommandInterface::class)) {
+            if($this->isCommandRunning()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @return int 0 if everything went fine, or an exit code
      *
      * @throws CommandRuntimeException
      */
     protected function preExecuteCommand(): int
     {
-        if(is_subclass_of($this, LockableWaitCommandInterface::class)) {
-            $this->waitToRunCommand();
-        } elseif (is_subclass_of($this, LockableCommandInterface::class)) {
-            if($this->isCommandRunning()) {
-                return static::SUCCESS;
-            }
-        }
         return static::SUCCESS;
     }
 
