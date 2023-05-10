@@ -24,7 +24,7 @@ class CommandStyle extends SymfonyStyle
      *
      * @param string|array $message
      */
-    public function error($message)
+    public function error($message): void
     {
         $this->forceType = self::VERBOSITY_QUIET;
         parent::error($message);
@@ -38,7 +38,7 @@ class CommandStyle extends SymfonyStyle
      * @param bool $newline Whether to add a newline
      * @param int $type A bitmask of options (one of the OUTPUT or VERBOSITY constants), 0 is considered the same as self::OUTPUT_NORMAL | self::VERBOSITY_NORMAL
      */
-    public function write($messages, bool $newline = false, int $type = self::OUTPUT_NORMAL)
+    public function write($messages, bool $newline = false, int $type = self::OUTPUT_NORMAL): void
     {
         parent::write($messages, $newline, $type != self::OUTPUT_NORMAL ? $type : $this->forceType);
     }
@@ -49,7 +49,7 @@ class CommandStyle extends SymfonyStyle
      * @param string|iterable $messages The message as an iterable of strings or a single string
      * @param int $type A bitmask of options (one of the OUTPUT or VERBOSITY constants), 0 is considered the same as self::OUTPUT_NORMAL | self::VERBOSITY_NORMAL
      */
-    public function writeln($messages, int $type = self::OUTPUT_NORMAL)
+    public function writeln($messages, int $type = self::OUTPUT_NORMAL): void
     {
         parent::writeln($messages, $type != self::OUTPUT_NORMAL ? $type : $this->forceType);
     }
