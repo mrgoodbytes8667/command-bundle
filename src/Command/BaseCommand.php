@@ -182,11 +182,27 @@ abstract class BaseCommand extends Command
     /**
      * @return int 0 if everything went fine, or an exit code
      *
-     * @throws CommandRuntimeException
+     * @throws CommandRuntimeException if an error condition occurs
      */
     protected function preExecuteCommand(): int
     {
+        $replacements = $this->handleInputReplacements();
+        if ($replacements > 0) {
+            $this->io->note(sprintf('Replaced %s %s', number_format($replacements), $replacements === 1 ? 'input' : 'inputs'));
+        }
         return static::SUCCESS;
+    }
+
+    /**
+     * Runs as part of {@see preExecuteCommand()}
+     * Used to replace deprecated inputs for easier future deprecation removal
+     * @return int Number of inputs replaced (or 0 to silence output)
+     *
+     * @throws CommandRuntimeException if an error condition occurs
+     */
+    protected function handleInputReplacements(): int
+    {
+        return 0;
     }
 
     /**
