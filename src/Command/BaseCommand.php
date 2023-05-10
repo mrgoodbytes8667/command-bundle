@@ -53,7 +53,7 @@ abstract class BaseCommand extends Command
     private $outputDateFormat = 'm/d/Y g:i:sa T';
 
     /**
-     *
+     * @var string
      */
     const DEFAULT_TIMEZONE = 'America/Chicago';
 
@@ -96,6 +96,7 @@ abstract class BaseCommand extends Command
             if ($exception->shouldDisplayMessage() && !empty($exception->getMessage())) {
                 $this->io->error($exception->getMessage());
             }
+            
             return $exception->getReturnCode();
         }
     }
@@ -117,12 +118,13 @@ abstract class BaseCommand extends Command
      *
      * @see setCode()
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             if (!$this->canCommandRun()) {
                 return static::SUCCESS;
             }
+            
             $preExecuteCommand = $this->preExecuteCommand();
             if ($preExecuteCommand !== static::SUCCESS) {
                 return $preExecuteCommand;
@@ -150,6 +152,7 @@ abstract class BaseCommand extends Command
             if ($exception->shouldDisplayMessage() && !empty($exception->getMessage())) {
                 $this->io->error($exception->getMessage());
             }
+            
             $return = $exception->getReturnCode();
         }
 
@@ -176,6 +179,7 @@ abstract class BaseCommand extends Command
                 return false;
             }
         }
+        
         return true;
     }
 
@@ -190,6 +194,7 @@ abstract class BaseCommand extends Command
         if ($replacements > 0) {
             $this->io->note(sprintf('Replaced %s %s', number_format($replacements), $replacements === 1 ? 'input' : 'inputs'));
         }
+        
         return static::SUCCESS;
     }
 
@@ -214,6 +219,7 @@ abstract class BaseCommand extends Command
     {
         $now = new DateTime();
         $now->setTimezone($this->getOutputTimeZone());
+        
         $this->io->note($prepend . $now->format($this->getOutputDateFormat()) . $append);
         return $now;
     }
@@ -259,6 +265,7 @@ abstract class BaseCommand extends Command
                 $outputTimeZone = new DateTimeZone(static::DEFAULT_TIMEZONE);
             }
         }
+        
         $this->outputTimeZone = $outputTimeZone;
         return $this;
     }

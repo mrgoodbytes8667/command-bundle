@@ -24,6 +24,7 @@ class LegacySampleCommandTest extends TestCase
 
         $command = new SampleNeedsOutputSuccessOnlyCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);

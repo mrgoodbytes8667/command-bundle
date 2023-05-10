@@ -33,6 +33,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleSuccessOnlyCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -46,6 +47,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleFailureOnlyCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -60,6 +62,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleInputCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -77,6 +80,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleFailureInputCommand('app:sample');
         $command->setName('app:sample');
+        
         $command->now = new \DateTime();
         $tester = new CommandTester($command);
 
@@ -105,6 +109,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleCommandRuntimeExceptionNoArgsCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -118,6 +123,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleCommandRuntimeExceptionMessageCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -131,6 +137,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleInteractionCommandRuntimeExceptionMessageCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -144,6 +151,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleCommandRuntimeExceptionMessageReturnSuccessCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -157,6 +165,7 @@ class SampleCommandTest extends TestCase
     {
         $command = new SampleSuccessOnlyNeedsOutputWithoutVarCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);

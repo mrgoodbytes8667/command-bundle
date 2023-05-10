@@ -5,20 +5,16 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 
 
 use Bytes\CommandBundle\Command\BaseCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class SampleInputCommand
  * @package Bytes\CommandBundle\Tests\fixtures\Command
  */
+#[AsCommand('app:sample')]
 class SampleInputCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
-
     /**
      * {@inheritdoc}
      */
@@ -36,7 +32,7 @@ class SampleInputCommand extends BaseCommand
     protected function executeCommand(): int
     {
         $test = (true === $this->input->getOption('test'));
-        if($test) {
+        if ($test) {
             return static::SUCCESS;
         }
 

@@ -37,6 +37,7 @@ class SampleTimeCommandTest extends TestCase
         $this->now = new DateTimeImmutable();
         $this->command = new SampleTimeCommand('app:sample');
         $this->command->setName('app:sample');
+        
         $this->tester = new CommandTester($this->command);
     }
 
@@ -58,9 +59,11 @@ class SampleTimeCommandTest extends TestCase
         if (is_null($timezone)) {
             $timezone = $this->command->getOutputTimeZone();
         }
+        
         if (!($timezone instanceof DateTimeZone)) {
             $timezone = new DateTimeZone($timezone);
         }
+        
         $now = DateTime::createFromImmutable($this->now);
         $now->setTimezone($timezone);
         $this->command->now = $now;
@@ -77,6 +80,7 @@ class SampleTimeCommandTest extends TestCase
         if (!empty($format)) {
             $this->command->setOutputDateFormat($format);
         }
+        
         $this->tester->execute([]);
         $this->assertEquals(Command::SUCCESS, $this->tester->getStatusCode());
         $this->assertStringContainsString(sprintf("! [NOTE] Command starting at %s", $now->format($format)), $this->tester->getDisplay());

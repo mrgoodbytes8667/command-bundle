@@ -7,19 +7,16 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 use Bytes\CommandBundle\Command\BaseCommand;
 use Bytes\CommandBundle\Command\Traits\CounterTableHelperTrait;
 use Bytes\CommandBundle\Command\Traits\ProgressBarHelperTrait;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Helper\TableCellStyle;
 
 /**
  *
  */
+#[AsCommand('app:sample')]
 class SampleCounterCommand extends BaseCommand
 {
     use CounterTableHelperTrait, ProgressBarHelperTrait;
-
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
 
     /**
      * @return int

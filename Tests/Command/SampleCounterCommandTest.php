@@ -33,6 +33,7 @@ class SampleCounterCommandTest extends TestCase
     {
         $command = new SampleCounterCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -46,6 +47,7 @@ class SampleCounterCommandTest extends TestCase
     {
         $command = new SampleCounterCommandTableRenders('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -62,6 +64,7 @@ class SampleCounterCommandTest extends TestCase
     {
         $command = new SampleCounterCommandNoTableRenders('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -78,6 +81,7 @@ class SampleCounterCommandTest extends TestCase
     {
         $command = new SampleCounterCommandWithSeparator('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -95,6 +99,7 @@ class SampleCounterCommandTest extends TestCase
     {
         $command = new SampleCounterCommandNoSeparator('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -112,6 +117,7 @@ class SampleCounterCommandTest extends TestCase
     {
         $command = new SampleCounterCommandNumerousRows('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);

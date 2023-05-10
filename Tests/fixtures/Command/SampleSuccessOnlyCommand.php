@@ -5,18 +5,15 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 
 
 use Bytes\CommandBundle\Command\BaseCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class SampleSuccessOnlyCommand
  * @package Bytes\CommandBundle\Tests\fixtures\Command
  */
+#[AsCommand('app:sample')]
 class SampleSuccessOnlyCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
-
     /**
      * @return int
      */

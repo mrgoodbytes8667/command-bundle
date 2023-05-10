@@ -39,6 +39,7 @@ class SampleInputReplacementTest extends TestCase
     {
         $command = new SampleInputReplacementCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute(input: $input);
@@ -55,6 +56,7 @@ class SampleInputReplacementTest extends TestCase
     {
         $command = new SampleInputReplacementCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute(input: $input);

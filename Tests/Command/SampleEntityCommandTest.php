@@ -23,6 +23,7 @@ class SampleEntityCommandTest extends TestCase
 
         $command = new SampleSuccessOnlyEntityCommand($manager, 'app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);

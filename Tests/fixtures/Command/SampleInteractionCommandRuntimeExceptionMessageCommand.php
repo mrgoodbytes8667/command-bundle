@@ -6,19 +6,16 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 
 use Bytes\CommandBundle\Command\BaseCommand;
 use Bytes\CommandBundle\Exception\CommandRuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  *
  */
+#[AsCommand('app:sample')]
 class SampleInteractionCommandRuntimeExceptionMessageCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
-
     /**
      * Interacts with the user.
      *

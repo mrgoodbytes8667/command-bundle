@@ -5,18 +5,15 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 
 
 use Bytes\CommandBundle\Command\BaseEntityManagerCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class SampleSuccessOnlyEntityCommand
  * @package Bytes\CommandBundle\Tests\fixtures\Command
  */
+#[AsCommand('app:sample')]
 class SampleSuccessOnlyEntityCommand extends BaseEntityManagerCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
-
     /**
      * @return int
      */

@@ -4,8 +4,7 @@
 namespace Bytes\CommandBundle\Tests\fixtures\Command;
 
 
-use Bytes\CommandBundle\Command\BaseCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use DateTime;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -32,7 +31,7 @@ class SampleFailureInputCommand extends SampleTimeCommand
     protected function preExecuteCommand(): int
     {
         $pre = (true === $this->input->getOption('pre'));
-        if($pre) {
+        if ($pre) {
             return static::SUCCESS;
         }
 
@@ -46,7 +45,7 @@ class SampleFailureInputCommand extends SampleTimeCommand
     protected function postExecuteCommand(): int
     {
         $post = (true === $this->input->getOption('post'));
-        if($post) {
+        if ($post) {
             return static::SUCCESS;
         }
 
@@ -57,7 +56,7 @@ class SampleFailureInputCommand extends SampleTimeCommand
     /**
      * @param string $prepend
      * @param string $append
-     * @return \DateTime
+     * @return DateTime
      */
     protected function outputCurrentDateTime(string $prepend = '', string $append = '')
     {

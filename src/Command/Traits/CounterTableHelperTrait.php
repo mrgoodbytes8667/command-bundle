@@ -47,6 +47,7 @@ trait CounterTableHelperTrait
         if (empty($this->table)) {
             $this->createTable([]);
         }
+        
         if ($doIncrementRowCount) {
             $this->rowCounter++;
         }
@@ -88,11 +89,13 @@ trait CounterTableHelperTrait
             $this->section = $this->output->section();
             $output = $this->section;
         }
+        
         $table = new Table($output);
         $table->setHeaders($headers);
         if (!empty($title)) {
             $table->setHeaderTitle($title);
         }
+        
         $this->tableFooterText = $footer;
 
         return $this->table = $table;
@@ -119,6 +122,7 @@ trait CounterTableHelperTrait
         if (empty($this->table)) {
             $this->createTable([]);
         }
+        
         if ($doIncrementRowCount) {
             $this->rowCounter++;
         }
@@ -145,6 +149,7 @@ trait CounterTableHelperTrait
         if (empty($this->table)) {
             $this->createTable([]);
         }
+        
         if ($this->willTableRender() || $forceRender) {
             $this->renderTableFooter();
             $this->table->render();
@@ -177,6 +182,7 @@ trait CounterTableHelperTrait
             } else {
                 $footerText = number_format($this->rowCounter) . ' ' . $this->tableFooterText;
             }
+            
             $this->table->setFooterTitle($footerText);
         }
 

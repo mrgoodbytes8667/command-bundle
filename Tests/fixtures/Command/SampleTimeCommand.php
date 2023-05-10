@@ -5,22 +5,19 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 
 
 use Bytes\CommandBundle\Command\BaseCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use DateTime;
+use DateTimeInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
 /**
  * Class SampleTimeCommand
  * @package Bytes\CommandBundle\Tests\fixtures\Command
  */
+#[AsCommand('app:sample')]
 class SampleTimeCommand extends BaseCommand
 {
     /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
-
-    /**
-     * @var \DateTime
+     * @var DateTimeInterface
      */
     public $now;
 
@@ -35,12 +32,13 @@ class SampleTimeCommand extends BaseCommand
     /**
      * @param string $prepend
      * @param string $append
-     * @return \DateTime
+     * @return DateTime
      */
     protected function outputCurrentDateTime(string $prepend = '', string $append = '')
     {
         $now = $this->now;
         $now->setTimezone($this->getOutputTimeZone());
+
         $this->io->note($prepend . $now->format($this->getOutputDateFormat()) . $append);
         return $now;
     }

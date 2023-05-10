@@ -7,15 +7,12 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 use Bytes\CommandBundle\Command\BaseCommand;
 use Bytes\CommandBundle\Command\Interfaces\LockableCommandInterface;
 use Bytes\CommandBundle\Command\Traits\LockableCommandTrait;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand('app:sample')]
 class SampleLockableSuccessOnlyCommand extends BaseCommand implements LockableCommandInterface
 {
     use LockableCommandTrait;
-
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
 
     /**
      * @return int

@@ -17,6 +17,7 @@ class SampleLockableCommandTest extends TestCase
     {
         $command = new SampleLockableSuccessOnlyCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);
@@ -30,6 +31,7 @@ class SampleLockableCommandTest extends TestCase
     {
         $command = new SampleLockableWaitSuccessOnlyCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $tester->execute([]);

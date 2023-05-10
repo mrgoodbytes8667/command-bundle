@@ -6,19 +6,12 @@ namespace Bytes\CommandBundle\Tests\fixtures\Command;
 
 use Bytes\CommandBundle\Command\BaseCommand;
 use Bytes\CommandBundle\Exception\CommandRuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-/**
- * Class SampleSuccessOnlyCommand
- * @package Bytes\CommandBundle\Tests\fixtures\Command
- */
+#[AsCommand('app:sample')]
 class SampleInputReplacementCommand extends BaseCommand
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'app:sample';
-
     /**
      * @return int
      */
@@ -31,7 +24,7 @@ class SampleInputReplacementCommand extends BaseCommand
     /**
      *
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -48,13 +41,11 @@ class SampleInputReplacementCommand extends BaseCommand
      */
     protected function handleInputReplacements(): int
     {
-        if($this->input->getOption('old')) {
+        if ($this->input->getOption('old')) {
             $this->input->setOption('new', $this->input->getOption('old'));
             return 1;
         }
 
         return 0;
     }
-
-
 }

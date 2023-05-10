@@ -32,6 +32,7 @@ class SampleLockableCommandWithWaitTest extends TestCase
         if (!class_exists(SemaphoreStore::class)) {
             throw new LogicException('To enable the locking feature you must install the symfony/lock component.');
         }
+        
         $this->lock = null;
 
         if (SemaphoreStore::isSupported()) {
@@ -48,6 +49,7 @@ class SampleLockableCommandWithWaitTest extends TestCase
     {
         $command = new SampleLockableSuccessOnlyCommand('app:sample');
         $command->setName('app:sample');
+        
         $tester = new CommandTester($command);
 
         $this->lock = (new LockFactory($this->store))->createLock($command->getName());
@@ -67,6 +69,7 @@ class SampleLockableCommandWithWaitTest extends TestCase
     {
         $this->lock->release();
         $this->lock = null;
+        
         $this->store = null;
     }
 }
