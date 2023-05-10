@@ -118,7 +118,7 @@ abstract class BaseCommand extends Command
      *
      * @see setCode()
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
             if (!$this->canCommandRun()) {
