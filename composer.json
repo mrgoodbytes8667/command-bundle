@@ -5,9 +5,9 @@
     "license": "CC-BY-NC-4.0",
     "require": {
         "php": "^8.1",
-        "symfony/console": "^6.1",
-        "symfony/framework-bundle": "^6.1",
-        "symfony/lock": "^6.1"
+        "symfony/console": "^6.1 | ^7.0",
+        "symfony/framework-bundle": "^6.1 | ^7.0",
+        "symfony/lock": "^6.1 | ^7.0"
     },
     "require-dev": {
         "doctrine/orm": "^2.8 | ^3.0",
