@@ -10,7 +10,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mrgoodbytes8667/command-bundle/release.yml?label=stable&logo=github&logoColor=FFF&style=flat)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mrgoodbytes8667/command-bundle/run-tests.yml?logo=github&logoColor=FFF&style=flat)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mrgoodbytes8667/command-bundle/run-tests-by-version.yml?logo=github&logoColor=FFF&style=flat)
-[![codecov](https://img.shields.io/codecov/c/github/mrgoodbytes8667/command-bundle/1.6?logo=codecov&logoColor=FFF&style=flat)](https://codecov.io/gh/mrgoodbytes8667/command-bundle)  
+[![codecov](https://img.shields.io/codecov/c/github/mrgoodbytes8667/command-bundle/2.0?logo=codecov&logoColor=FFF&style=flat)](https://codecov.io/gh/mrgoodbytes8667/command-bundle)  
 A _slightly_ better version of Symfony's base command class
 
 ## Installation
